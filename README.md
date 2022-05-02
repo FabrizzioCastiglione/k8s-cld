@@ -1,5 +1,8 @@
-# Welcome to GitHub Desktop!
+# Cloud with K8S + Docker in Production
 
-This is your README. READMEs are where you can communicate what your project is and how to use it.
+El primer paso es tener una Master con requisitos adecuados para poder hacer soportes a los nodos. 
 
-Write your name on line 6, save it, and then head back to GitHub Desktop.
+
+Kubernetes (“K8s”) es un sistema de código libre para la automatización del despliegue, ajuste de escala y manejo de aplicaciones en contenedores que fue originalmente diseñado por Google y donado a la Cloud Native Computing Foundation (parte de la Linux Foundation). Soporta diferentes entornos para la ejecución de contenedores, incluido Docker.
+
+Docker es un proyecto de código abierto que automatiza el despliegue de aplicaciones dentro de contenedores de software, proporcionando una capa adicional de abstracción y automatización de virtualización de aplicaciones en múltiples sistemas operativos. ​Docker utiliza características de aislamiento de recursos del kernel Linux, tales como cgroups y espacios de nombres (namespaces) para permitir que "contenedores" independientes se ejecuten dentro de una sola instancia de Linux, evitando la sobrecarga de iniciar y mantener máquinas virtuales.
