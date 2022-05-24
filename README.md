@@ -75,6 +75,7 @@ Despues Kubernetes
 
 ![init](https://user-images.githubusercontent.com/68827543/170141818-1d25beab-bdd4-41ac-b74f-7abb062ca2d6.png)
 
+
 * Guardar token del nodo master
 
 ```bash
@@ -84,57 +85,52 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 export KUBECONFIG=$HOME/admin.conf
 ```
 
-
-Installing the Weave Net Add-On
+Instalamos Weave Net Add-On
+```bash
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-It make take a few mins to execute the above command and show show the below message.
+```
 
+Ingresar el token en los los equipos esclavos para hacer el nodo.
 
-Now execute the below command to see the pods.
-
-kubectl get pods  --all-namespaces
-
-
-
-Now login to Worker Node
-
-Join worker node to Master Node
-The below command will join worker node to master node, execute this a normal user by putting sudo before:
-
-
- 
+```bash
 sudo kubeadm join <master_node_ip>:6443 --token xrvked.s0n9771cd9x8a9oc \
     --discovery-token-ca-cert-hash sha256:288084720b5aad132787665cb73b9c530763cd1cba10e12574b4e97452137b4a
-
-
-
-Go to Master and type the below command
+```
+Se revisa los nodos conectados en el 'Master'.
+```bash
+sudo su -
 kubectl get nodes
-the above command should display both Master and worker nodes.
+```
+Significa Kubernetes Cluster: ¡tanto los nodos maestros como los trabajadores están configurados correctamente y en funcionamiento.
 
+Implementar Nginx en un clúster de Kubernetes Ejecutemos algunas aplicaciones para asegurarnos de que se implementen en el clúster de Kuberneter. Haremos esto en el nodo maestro. El siguiente comando creará la implementación:
 
-
-It means Kubernetes Cluster - both Master and worker nodes are setup successfully and up and running!!!
-
-Deploy Nginx on a Kubernetes Cluster
-Let us run some apps to make sure they are deployed to Kuberneter cluster. We will do this in master node. The below command will create deployment:
-
+```bash
 kubectl create deployment nginx --image=nginx
+```
+Ver implementaciones kubectl obtener implementaciones
+```bash
+kubectl get deployments
+```
 
+![deploy 1](https://user-images.githubusercontent.com/68827543/170144797-035d2cf9-2630-4c9c-9b94-51641fb5044e.png)
 
-View Deployments
-kubectl get deployments 
-
-Create as a service 
-
- 
+Se creara el el servicio de nginx
+ ```bash
 kubectl create service nodeport nginx --tcp=80:80
+```
+![expose svc](https://user-images.githubusercontent.com/68827543/170145175-95e11c86-dcd7-4f6e-9949-c2f741e0bbaa.png)
 
+Vemos el resumen de los puertos abiertos.
+
+```bash
 kubectl get svc
-run the above command to see a summary of the service and the ports exposed.
+ ```
+ 
+![get svc](https://user-images.githubusercontent.com/68827543/170145302-c89b140f-4f51-4e5f-8c87-d01ad3210faf.png)
 
+Ahora vaya al nodo maestro o trabajador, ingrese dns públicos y acceda con el puerto expuesto
 
-Now go Master or worker node, enter public dns and access it with port exposed
+![access app](https://user-images.githubusercontent.com/68827543/170145512-81f56789-afa6-4b44-9240-05d373778a1c.png)
 
-You should see the welcome page!
 
