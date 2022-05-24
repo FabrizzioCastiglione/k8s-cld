@@ -15,17 +15,25 @@ Docker es un proyecto de código abierto que automatiza el despliegue de aplicac
      <img src='https://user-images.githubusercontent.com/68827543/166177804-77d70d43-f375-4019-bc30-d978a29c36d6.jpg'>
  </p>
 
-```bash
-$ sudo apt-get update -y  && sudo apt-get install apt-transport-https -y
+# Cloud Montage
 
-Change to root user
+Para la contruccion de la Cloud se necesita el despliege de 'KUBERNETES' tanto como el Maestro/Esclavo. Iniciamos instancias en lso nodos y en el master.
+```bash
+ sudo apt-get update -y  && sudo apt-get install apt-transport-https -y
+```
+Se inicia usuario root y se descargan las llaves de de 'Kubenetes'.
+```bash
 sudo su -
 sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 ```
+
+Se desabilidta la memoria de swap (intercambio) para mejor rendimiento.
+```bash
 swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+```
 
-'Enable IP tables'
+Se habilitan la tablas IP para los puertos, asi activamos las tablas IT para la cuminicacion de pod a pod.
 We need to enable IT tables for pod to pod communication.
 ```bash
 modprobe br_netfilter
@@ -38,7 +46,7 @@ Install Docker on both Master and Worker nodes
 apt-get install docker.io -y
 ```
 Add ubuntu user to Docker group
-usermod -aG docker ubuntu
+usermod -aG docker user
 systemctl restart docker
 systemctl enable docker.service
 
