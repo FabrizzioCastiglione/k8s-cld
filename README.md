@@ -15,24 +15,28 @@ Docker es un proyecto de código abierto que automatiza el despliegue de aplicac
      <img src='https://user-images.githubusercontent.com/68827543/166177804-77d70d43-f375-4019-bc30-d978a29c36d6.jpg'>
  </p>
 
-sudo apt-get update -y  && sudo apt-get install apt-transport-https -y
+```bash
+$ sudo apt-get update -y  && sudo apt-get install apt-transport-https -y
 
 Change to root user
 sudo su -
 sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-
+```
 swapoff -a
 sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-Enable IP tables
-#We need to enable IT tables for pod to pod communication.
+'Enable IP tables'
+We need to enable IT tables for pod to pod communication.
+```bash
 modprobe br_netfilter
 sysctl -p
 sudo sysctl net.bridge.bridge-nf-call-iptables=1
+```
 
 Install Docker on both Master and Worker nodes
+```bash
 apt-get install docker.io -y
-
+```
 Add ubuntu user to Docker group
 usermod -aG docker ubuntu
 systemctl restart docker
