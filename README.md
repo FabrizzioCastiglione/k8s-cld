@@ -19,12 +19,14 @@ Docker es un proyecto de código abierto que automatiza el despliegue de aplicac
 
 Para la contruccion de la Cloud se necesita el despliege de 'KUBERNETES' tanto como el Maestro/Esclavo. Iniciamos instancias en lso nodos y en el master.
 ```bash
- sudo apt-get update -y  && sudo apt-get install apt-transport-https -y
+sudo apt install curl
+sudo apt-get update -y  && sudo apt-get install apt-transport-https -y
 ```
 Se inicia usuario root y se descargan las llaves de de 'Kubenetes'.
 ```bash
 sudo su -
 sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" > /etc/apt/sources.list.d/kubernetes.list
 ```
 
 Se desabilidta la memoria de swap (intercambio) para mejor rendimiento.
@@ -45,32 +47,42 @@ Install Docker on both Master and Worker nodes
 ```bash
 apt-get install docker.io -y
 ```
-Add ubuntu user to Docker group
+
+Agregamos docker como super usuario y lo reiniciamos.
+```bash
 usermod -aG docker user
 systemctl restart docker
 systemctl enable docker.service
+```
 
-Type exit to come out of root user.
-Install Kubernetes Modules
-sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
-
+Instalamos kubeadm para la instalcion de kubernetes. Salimos de super usuario.
+```bash
+apt-get update && apt-get install -y kubeadm
+exit
 sudo systemctl daemon-reload
 sudo systemctl start kubelet
 sudo systemctl enable kubelet.service
 sudo systemctl status docker
+```
 
-Initialize Kubeadm on Master Node(only on Master Node)
+Iniciamos kubeadm en el nodo master.
 
-#Execute the below command as root user to initialize Kubernetes Master node.
+```bash
 sudo su - 
-kubeadm init
+kubeadm init --pod-network-cidr 10.244.0.0/16
+```
+Despues Kubernetes 
 
-#Now type exit to exit from root user and execute below commands as normal user
+![init](https://user-images.githubusercontent.com/68827543/170141818-1d25beab-bdd4-41ac-b74f-7abb062ca2d6.png)
 
+* Guardar token del nodo master
+
+```bash
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
+export KUBECONFIG=$HOME/admin.conf
+```
 
 
 Installing the Weave Net Add-On
