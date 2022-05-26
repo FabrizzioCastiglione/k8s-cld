@@ -55,6 +55,7 @@ systemctl restart docker
 systemctl enable docker.service
 ```
 
+
 Instalamos kubeadm para la instalcion de kubernetes. Salimos de super usuario.
 ```bash
 apt-get update && apt-get install -y kubeadm
@@ -63,6 +64,25 @@ sudo systemctl daemon-reload
 sudo systemctl start kubelet
 sudo systemctl enable kubelet.service
 sudo systemctl status docker
+```
+
+Enfrenté un problema similar recientemente. El problema era el controlador de cgroup. El controlador cgroup de Kubernetes se configuró en sistemas, pero la ventana acoplable se configuró en systemd. Así que creé /etc/docker/daemon.json y agregué a continuación:
+
+```bash
+sudo nano /etc/docker/daemon.json
+
+{
+    "exec-opts": ["native.cgroupdriver=systemd"]
+}
+
+```
+
+Reiniciamos servicios.
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+sudo systemctl restart kubelet
 ```
 
 Iniciamos kubeadm en el nodo master.
