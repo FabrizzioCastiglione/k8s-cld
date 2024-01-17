@@ -15,7 +15,7 @@ Docker es un proyecto de código abierto que automatiza el despliegue de aplicac
      <img src='https://user-images.githubusercontent.com/68827543/166177804-77d70d43-f375-4019-bc30-d978a29c36d6.jpg'>
  </p>
 
-# Cloud Montage
+# Cloud Montage Singler Board Computer
 
 Para la contruccion de la Cloud se necesita el despliege de 'KUBERNETES' tanto como el Maestro/Esclavo. Iniciamos instancias en lso nodos y en el master.
 ```bash
