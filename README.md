@@ -77,6 +77,11 @@ sudo nano /etc/docker/daemon.json
 
 ```
 
+
+Se activa los Cgroup de memory en /boot/cmdline.txt
+```bash
+console=serial0,115200 console=tty1 root=PARTUUID=5984aef9-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=CL cgroup_memory=1 cgroup_enable=memory
+```
 Reiniciamos servicios.
 
 ```bash
